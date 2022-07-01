@@ -61,7 +61,7 @@ const Rating = ({ value, text, color }) => {
           ></i>
         </span>
         {/* used for cases when we either want to show soemthing or nothing otherwsie */}
-        <span>{text && text}</span>
+        <span>{text && text}</span> 
       </div>
     </div>
   );
