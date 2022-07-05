@@ -1,75 +1,30 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'; // Erase if already required
 
 // Declare the Schema of the Mongo model
-const orderSchema = mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId, // for objectId type
+var userSchema = new mongoose.Schema({
+    name:{
+        type:String,
         required:true,
-        ref:"User"  // refrencing User model or relation between user and product
+        unique:true,
     },
-    orderItems:[
-        {
-            name:{type:String,required:true},
-            qty:{type:Number,required:true},
-            image:{type:String,required:true},
-            price:{type:Number,required:true},
-            product:{
-                type:mongoose.Schema.Types.ObjectId,
-                required:true,
-                ref:"Product"   // refers or relates Product Schema 
-            }
-        }
-    ],
-    shippingAddress:{
-        // contains multiple sub objects
-        address:{type:String,required:true},
-        city:{type:String,required:true},
-        postalCode:{type:String,required:true},
-        country:{type:String,required:true}
-    },
-    paymentResult:{
-        // it gets returned from paypal when payment gets succeed
-        id:{type:String},
-        status:{type:String},
-        update_time:{type:String},
-        email_address:{type:String}, 
-    },
-    taxPrice:{
-        type:Number,
+    email:{
+        type:String,
         required:true,
-        default:0.0
+        unique:true,
     },
-    shippingPrice:{
-        type:Number,
+    password:{
+        type:String,
         required:true,
-        default:0.0
     },
-    totalPrice:{
-        type:Number,
-        required:true,
-        default:0.0
-    },
-    isPaid:{
+    isAdmin:{
         type:Boolean,
         required:true,
         default:false
-    },
-    paidAt:{
-        type:Date
-    },
-    isDelivered:{
-        type:Boolean,
-        required:true,
-        default:false
-    },
-    deliveredAt:{
-        type:Date
-    },
-
+    }
 },{
-    timestamps:true
+    timestamps:true // to get date when is created
 });
 
 //Export the model
-const Order = mongoose.model('Order', orderSchema);
-export default Order
+const User = mongoose.model('User', userSchema);
+export default User 
