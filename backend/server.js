@@ -1,9 +1,13 @@
 import express from "express"
-import products from "./data/products.js"
+// import products from "./data/products.js"  no need when database is connected and configured 
 import dotenv from "dotenv"
 // MongoDB configuration 
 import connectDB from "./config/db.js"
 import colors from 'colors';
+import { notFound,errorHandler } from "./middleware/errorMiddleware.js";
+import productRoutes from "./routes/productRoutes.js"
+
+
 dotenv.config(); // allows to use some variables defined accross whole app
 
 
@@ -14,9 +18,17 @@ app.get("/", (req, res) => {
   res.send("Api is Running......");
 });
 
+//using productRoutes 
+app.use("/api/products",productRoutes)
+
+
 app.get("/api/products", (req, res) => {
   res.json(products);
 });
+
+app.use(notFound)
+
+app.use(errorHandler)
 
 app.get("/api/products/:id", (req, res) => {
   const product = products.find((p) => p._id === req.params.id);
