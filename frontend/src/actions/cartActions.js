@@ -1,5 +1,5 @@
-import { axios } from 'axios';
-import { CART_ADD_ITEM } from './../constants/cartConstants';
+import axios from 'axios';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM } from './../constants/cartConstants';
 
 
 export const addToCart = (id,qty) => async (dispatch, getState)  => {    // getState is used to entire state of application
@@ -22,3 +22,11 @@ export const addToCart = (id,qty) => async (dispatch, getState)  => {    // getS
     localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
 } 
 // these saved cartItems json are accessd in store.js 
+
+export const removeFromCart = (id) => (dispatch,getState) => {
+    dispatch({
+        type:CART_REMOVE_ITEM,
+        payload:id
+    })
+    localStorage.setItem('cartItems',JSON.stringify(getState().cart.cartItems))
+}

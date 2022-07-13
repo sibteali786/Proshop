@@ -90,7 +90,7 @@ const ProductScreen = () => {
                     <Col>
                       <Form.Control as='select' value={qty} onChange={(e)=> setQty(e.target.value)}>
                         {[...Array(product.countInStock).keys()].map(x => (
-                          <option kry={x+1} value={x+1}>
+                          <option key={x+1} value={x+1}>
                             {x+1}
                           </option>
                         ) )}  {/* Its  like getting [0,1,2,3,4]  */}
