@@ -7,6 +7,7 @@ import { notFound,errorHandler } from "./middleware/errorMiddleware.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import path from 'path';
+import colors from 'colors'
 dotenv.config(); // allows to use some variables defined accross whole app
 
 
