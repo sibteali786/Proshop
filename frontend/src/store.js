@@ -3,13 +3,14 @@ import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension"
 import { productDetailsReducer, productListReducer } from './reducers/productReducers';
 import { cartReducer } from './reducers/cartReducers';
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducer";
+import { userDetailsReducer, userLoginReducer, userRegisterReducer } from "./reducers/userReducer";
 const reducer = combineReducers({
     productList:productListReducer,
     productDetails:productDetailsReducer,
     cart: cartReducer,
     userLogin:userLoginReducer,
-    userRegister:userRegisterReducer 
+    userRegister:userRegisterReducer,
+    userDetails:userDetailsReducer 
 })
 
 // accessing locally store cartItems 
