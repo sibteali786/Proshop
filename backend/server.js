@@ -15,20 +15,8 @@ dotenv.config(); // allows to use some variables defined accross whole app
 connectDB();
 const app = express();
 app.use(express.json());   // allows us to accept json data in the body 
-app.get("/", (req, res) => {
-  res.send("Api is Running......");
-});
 
-const __dirname = path.resolve();
-if (process.env.NODE_ENV === 'production'){
-  app.use(express.static(path.join(__dirname,'frontend/build')))
 
-  app.get('*',(req,res)=> res.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
-}else{
-  app.get("/", (req, res) => {
-    res.send("Api is Running......");
-  });
-}
 
 //using productRoutes and userRoutes
 app.use("/api/products",productRoutes)
@@ -38,14 +26,20 @@ app.get("/api/products", (req, res) => {
   res.json(products);
 });
 
+
+const __dirname = path.resolve();
+if (process.env.NODE_ENV === 'production'){
+  app.use(express.static(path.join(__dirname,'/frontend/build')))
+  
+  app.get('*',(req,res)=> res.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
+}else{
+  app.get("/", (req, res) => {
+    res.send("Api is Running......");
+  });
+}
 app.use(notFound)
 
 app.use(errorHandler)
-
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
 
 const PORT = process.env.PORT || 5000;
 
