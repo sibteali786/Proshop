@@ -9,6 +9,9 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
 } from "../constants/userConstants";
 import axios from "axios";
 export const login = (email, password) => async (dispatch) => {
@@ -57,7 +60,7 @@ export const register = (name, email, password) => async (dispatch) => {
     dispatch({
       type: USER_REGISTER_REQUEST,
     });
-    // when sedning data we want to set header content to be json
+    // when sending data we want to set header content to be json
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -94,38 +97,69 @@ export const register = (name, email, password) => async (dispatch) => {
   }
 };
 
-
 // getting the details about a user
-export const getUserDetails = (id) => async (dispatch, getState) => {   // getState helps us to get token 
+export const getUserDetails = (id) => async (dispatch, getState) => {
+  // getState helps us to get token
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
     });
 
-    const {userLogin : {userInfo}} = getState();
-    // when sedning data we want to set header content to be json
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    // when sending data we want to set header content to be json
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization : `Bearer ${userInfo.token}`
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
-    const { data } = await axios.get(
-      `/api/users/${id}`,
-      config
-    );
+    const { data } = await axios.get(`/api/users/${id}`, config);
 
     dispatch({
       type: USER_DETAILS_SUCCESS,
       payload: data,
     });
-    
-    // saving user in the local storage so as to restore session / page when it comes again after some time
-    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+  // getState helps us to get token
+  try {
+    dispatch({
+      type: USER_UPDATE_PROFILE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+    // when sending data we want to set header content to be json
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/users/profile`, user, config);
+
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

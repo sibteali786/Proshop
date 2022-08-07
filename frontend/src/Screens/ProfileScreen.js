@@ -4,23 +4,29 @@ import { Form, Row, Col, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  // loading state info and error messages
   const [message, setMessage] = useState("");
+  //routing information
   const history = useNavigate();
   const dispatch = useDispatch();
-
+  // Redux hooks to access global state
+  // Getting user details at Profile Screen
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  // User login state
+  // for checking if user is logged in so as to make sure logged in people can only access profile
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -42,6 +48,7 @@ const ProfileScreen = () => {
       setMessage("Passwords do not match");
     } else {
       // Dispatch Update Profile
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 
@@ -51,9 +58,10 @@ const ProfileScreen = () => {
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
         {error && <Message variant="danger">{error}</Message>}
+        {success && <Message variant="success">Profile Updated</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
-          <Form.Group controlerId="name">
+          <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="name"
@@ -62,7 +70,7 @@ const ProfileScreen = () => {
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlerId="email">
+          <Form.Group controlId="email">
             <Form.Label>Email Address</Form.Label>
             <Form.Control
               type="email"
@@ -72,7 +80,7 @@ const ProfileScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Form.Group controlerId="password">
+          <Form.Group controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
@@ -81,7 +89,7 @@ const ProfileScreen = () => {
               onChange={(e) => setPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
-          <Form.Group controlerId="confrimPassword">
+          <Form.Group controlId="confrimPassword">
             <Form.Label>Confrim Password</Form.Label>
             <Form.Control
               type="password"
