@@ -12,49 +12,59 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
   const location = useLocation();
   const history = useNavigate();
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  let redirect = location.search ? location.search.split("=")[1] : "/";
+  redirect = "/" + redirect;
   const dispatch = useDispatch();
-  const userLogin = useSelector(state => state.userLogin);
-  const {loading, error, userInfo} = userLogin;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error, userInfo } = userLogin;
   const submitHandler = (e) => {
     e.preventDefault();
-    // Dispatch Login 
-    dispatch(login(email,password))
-  }
-
+    // Dispatch Login
+    dispatch(login(email, password));
+  };
   useEffect(() => {
     if (userInfo) {
-        history(redirect)
+      history(redirect, { replace: true });
     }
-  }, [history,userInfo,redirect])
-  
-  
+  }, [history, userInfo, redirect]);
+
   return (
     <FormContainer>
       <h1>Sign In</h1>
-      {error && <Message variant='danger' >{error}</Message> }
-      {loading && <Loader/>}
+      {error && <Message variant="danger">{error}</Message>}
+      {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlerId='email'>
-            <Form.Label>Email Address</Form.Label>
-            <Form.Control type='email' placeholder="Enter email" value={email}
-            onChange={(e) => setEmail(e.target.value)}></Form.Control>
+        <Form.Group controlerId="email">
+          <Form.Label>Email Address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlerId='password'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type='password' placeholder="Enter password" value={password}
-            onChange={(e) => setPassword(e.target.value)}></Form.Control>
+        <Form.Group controlerId="password">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          ></Form.Control>
         </Form.Group>
 
-        <Button type='submit' variant='primary'>
-            Sign In
+        <Button type="submit" variant="primary">
+          Sign In
         </Button>
-      </Form> 
+      </Form>
 
       <Row>
         <Col>
-            New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : `/register`}>Register</Link>
+          New Customer?{" "}
+          <Link to={redirect ? `/register?redirect=${redirect}` : `/register`}>
+            Register
+          </Link>
         </Col>
       </Row>
     </FormContainer>
