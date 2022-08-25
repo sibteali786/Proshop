@@ -13,7 +13,9 @@ const LoginScreen = () => {
   const location = useLocation();
   const history = useNavigate();
   let redirect = location.search ? location.search.split("=")[1] : "/";
-  redirect = "/" + redirect;
+  if (redirect !== "/") {
+    redirect = "/" + redirect;
+  }
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
@@ -23,8 +25,9 @@ const LoginScreen = () => {
     dispatch(login(email, password));
   };
   useEffect(() => {
+    console.log(redirect);
     if (userInfo) {
-      history(redirect, { replace: true });
+      history(redirect);
     }
   }, [history, userInfo, redirect]);
 
@@ -34,7 +37,7 @@ const LoginScreen = () => {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlerId="email">
+        <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
@@ -44,7 +47,7 @@ const LoginScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlerId="password">
+        <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
