@@ -11,9 +11,11 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import ShippingScreen from "./Screens/ShippingScreen";
 import PaymentScreen from "./Screens/PaymentScreen";
 import PlaceOrderScreen from "./Screens/PlaceOrderScreen";
+import Favicon from "react-favicon";
 function App() {
   return (
     <Router>
+      <Favicon url="images/cart.png" />
       <Header />
       <main className="py-3">
         <Container>
