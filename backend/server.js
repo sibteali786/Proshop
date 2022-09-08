@@ -25,7 +25,7 @@ app.get("/api/products", (req, res) => {
 });
 
 // sending paypal to frontend through api request
-app.use("/api/config/paypal", (req, res) =>
+app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
 
