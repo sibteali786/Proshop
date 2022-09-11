@@ -22,11 +22,10 @@ const RegisterScreen = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     // Dispatch Register
-    if(password !== confirmPassword){
-        setMessage("Passwords do not match");
-    }else{
-
-        dispatch(register(name, email, password));
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+    } else {
+      dispatch(register(name, email, password));
     }
   };
 
@@ -43,7 +42,7 @@ const RegisterScreen = () => {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-      <Form.Group controlerId="name">
+        <Form.Group controlId="name">
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="name"
@@ -52,7 +51,7 @@ const RegisterScreen = () => {
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlerId="email">
+        <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
@@ -62,7 +61,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group controlerId="password">
+        <Form.Group controlId="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
@@ -71,7 +70,7 @@ const RegisterScreen = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlerId="confrimPassword">
+        <Form.Group controlId="confrimPassword">
           <Form.Label>Confrim Password</Form.Label>
           <Form.Control
             type="password"
